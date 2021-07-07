@@ -13,6 +13,7 @@
 | first_name      | string | null: false |
 | last_name_kana  | string | null: false |
 | first_name_kana | string | null: false |
+| birthday        | string | null: false |
 
 ### Association
 
@@ -22,43 +23,37 @@
 
 ## items テーブル
 
-| Column      | Type       | Options                        |
-| ----------- | ---------- | ------------------------------ |
-| item_name   | string     | null: false                    |
-| description | text       | null: false                    |
-| sell_user   | string     | null: false                    |
-| user        | references | null: false, foreign_key: true |
-| order       | references | null: false, foreign_key: true |
+| Column          | Type       | Options                        |
+| --------------- | ---------- | ------------------------------ |
+| item_name       | string     | null: false                    |
+| description     | text       | null: false                    |
+| category        | string     | null: false                    |
+| item_status     | string     | null: false                    |
+| delivery_charge | string     | null: false                    |
+| from_prefecture | string     | null: false                    |
+| days_from       | string     | null: false                    |
+| price           | string     | null: false                    |
+| user            | references | null: false, foreign_key: true |
+| order           | references | null: false, foreign_key: true |
 
 ### Association
 
 - belongs_to :user
-- has_many :orders
-- has_many :orders, through: :item_orders
-
-## item_orders テーブル
-
-| Column  | Type       | Options                        |
-| ------- | ---------- | ------------------------------ |
-| item    | references | null: false, foreign_key: true |
-| order   | references | null: false, foreign_key: true |
+- has_one :order
+- has_one :address, through: :order
 
 ## orders テーブル
 
 | Column   | Type       | Options                        |
 | -------- | ---------- | ------------------------------ |
-| buy_item | string     | null: false                    |
-| buy_user | string     | null: false                    |
 | user     | references | null: false, foreign_key: true |
 | item     | references | null: false, foreign_key: true |
-| address  | references | null: false, foreign_key: true |
 
 ### Association
 
+- belongs_to :item
+- belongs_to :address
 - belongs_to :user
-- has_many :items
-- has_many :items, through: :item_orders
-- has_one :address
 
 ## addresses テーブル
 
@@ -70,11 +65,10 @@
 | street_number | string     | null: false                    |
 | building      | string     | null: false                    |
 | phone         | string     | null: false                    |
-| user          | references | null: false, foreign_key: true |
-| item          | references | null: false, foreign_key: true |
 | order         | references | null: false, foreign_key: true |
 
 ### Association
 
 - belongs_to :user
 - has_one :order
+- has_one :item, through: :order
