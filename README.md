@@ -30,7 +30,7 @@
 | item_status_id     | integer    | null: false                    |
 | delivery_charge_id | integer    | null: false                    |
 | prefecture_id      | integer    | null: false                    |
-| days_from_id       | integer    | null: false                    |
+| delivery_day_id    | integer    | null: false                    |
 | price              | integer    | null: false                    |
 | user               | references | null: false, foreign_key: true |
 
@@ -39,7 +39,7 @@
 - belongs_to :user
 - has_one :order
 - belongs_to_active_hash :category_id, :item_status_id, :delivery_charge_id,
-                         :from_prefecture_id, :days_from_id
+                         :prefecture_id, :delivery_day_id
 
 ## orders テーブル
 
@@ -58,12 +58,12 @@
 
 | Column         | Type       | Options                        |
 | -------------- | ---------- | ------------------------------ |
-| postal_code    | text       | null: false                    |
+| postal_code    | string     | null: false                    |
 | prefecture_id  | integer    | null: false                    |
 | city           | string     | null: false                    |
 | street_number  | string     | null: false                    |
 | building       | string     |                                |
-| phone          | integer    | null: false                    |
+| phone          | string     | null: false                    |
 | order          | references | null: false, foreign_key: true |
 
 ### Association
