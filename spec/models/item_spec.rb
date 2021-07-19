@@ -38,10 +38,23 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Category can't be blank")
       end
 
+      it 'カテゴリーの選択が「---」では保存できない' do
+        @item.category_id = 0
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category must be other than 0")
+      end
+
+
       it '商品の状態の選択がなければ保存できない' do
         @item.item_status_id = nil
         @item.valid?
         expect(@item.errors.full_messages).to include("Item status can't be blank")
+      end
+
+      it '商品状態の選択が「---」では保存できない' do
+        @item.item_status_id = 0
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Item status must be other than 0")
       end
 
       it '配送料の負担の選択がなければ保存できない' do
@@ -50,16 +63,34 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Delivery charge can't be blank")
       end
 
+      it '送料負担の選択が「---」では保存できない' do
+        @item.delivery_charge_id = 0
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Delivery charge must be other than 0")
+      end
+
       it '発送元の地域の選択がなければ保存できない' do
         @item.prefecture_id = nil
         @item.valid?
         expect(@item.errors.full_messages).to include("Prefecture can't be blank")
       end
 
+      it '発送元の地域の選択が「---」では保存できない' do
+        @item.prefecture_id = 0
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Prefecture must be other than 0")
+      end
+
       it '発送までの日数の選択がなければ保存できない' do
         @item.delivery_day_id = nil
         @item.valid?
         expect(@item.errors.full_messages).to include("Delivery day can't be blank")
+      end
+
+      it '発送までの日数の選択が「---」では保存できない' do
+        @item.delivery_day_id  = 0
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Delivery day must be other than 0")
       end
 
       it '販売価格か空だと保存できない' do
