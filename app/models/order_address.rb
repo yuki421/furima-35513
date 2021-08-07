@@ -1,11 +1,10 @@
 class OrderAddress
   include ActiveModel::Model
-  attr_accessor :item_name, :delivery_charge_id, :price, :city, :street_number, :building, :prefecture_id, :postal_code, :phone, :user_id, :item_id
-
-  
+  attr_accessor :item_name, :delivery_charge_id, :price, :city, :street_number, :building, :prefecture_id, :postal_code, :phone, :user_id, :item_id, :token
 
   with_options presence: true do
     validates :user_id
+    validates :token
     validates :city
     validates :street_number 
     validates :postal_code, format: {with: /\A\d{3}[-]\d{4}\z/ }
