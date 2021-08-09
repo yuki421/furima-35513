@@ -73,8 +73,26 @@ RSpec.describe OrderAddress, type: :model do
         expect(@order_address.errors.full_messages).to include("Phone can't be blank", "Phone is invalid")
       end
 
-      it '電話番号が10桁または11桁の数字でなければ保存できない' do
+      it '電話番号が10桁または11桁以下の数字では保存できない' do
         @order_address.phone = '0901234'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Phone is invalid")
+      end
+
+      it '電話番号が10桁または11桁以上の数字では保存できない' do
+        @order_address.phone = '090123412341234'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Phone is invalid")
+      end
+
+      it '電話番号に数字以外が混じっていると保存できない' do
+        @order_address.phone = '090aaaa1234'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Phone is invalid")
+      end
+
+      it '電話番号は「0」から始まる数字以外では保存できない' do
+        @order_address.phone = '90012341234'
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Phone is invalid")
       end
@@ -91,6 +109,11 @@ RSpec.describe OrderAddress, type: :model do
         expect(@order_address.errors.full_messages).to include("Token can't be blank")
       end
 
+      it 'item_idの情報ない場合は保存できない' do
+        @order_address.item_id = nil
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Item can't be blank")
+      end
     end
   end
 end
