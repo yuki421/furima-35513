@@ -2,6 +2,7 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :find_params, only: [:show, :edit, :update]
   before_action :login_condition, only: [:edit, :update]
+  
 
   def index
     @items = Item.order("created_at DESC")
@@ -51,9 +52,12 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
   end
 
-  def login_condition
-    unless current_user.id == @item.user_id
-     redirect_to root_path
+  def login_condition 
+    if @item.orders.present?
+      if current_user.id == @item.user_id || current_user.id != @item.user_id
+        redirect_to root_path
+      end
     end
   end
+
 end
